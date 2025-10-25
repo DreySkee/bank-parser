@@ -6,12 +6,12 @@ services:
     rootDir: .
     plan: free
     buildCommand: |
-      npm install
+      npm ci --include=dev
       npm run build
     startCommand: npm run start
     envVars:
       - key: OPENAI_API_KEY
-        sync: false        # add this manually in Render dashboard
+        sync: false         # set manually in Render dashboard
       - key: NODE_ENV
         value: production
       - key: PORT
@@ -20,9 +20,9 @@ services:
   # ---------- Frontend ----------
   - type: web
     name: bank-parser-frontend
-    env: static            # ✅ this replaces "type: static"
+    env: static
     rootDir: client
-    buildCommand: npm run build
+    buildCommand: npm ci && npm run build
     staticPublishPath: dist
     envVars:
       - key: REACT_APP_API_URL
