@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
@@ -7,7 +7,19 @@ function App() {
   const [file, setFile] = useState<File | null>(null);
   const [csv, setCsv] = useState("");
   const [loading, setLoading] = useState(false);
+  const [elapsed, setElapsed] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    let timer: number | undefined;
+    if (loading) {
+      const start = Date.now();
+      timer = window.setInterval(() => {
+        setElapsed(((Date.now() - start) / 1000).toFixed(1));
+      }, 100);
+    }
+    return () => clearInterval(timer);
+  }, [loading]);
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +65,13 @@ function App() {
             {loading ? "Processing..." : "Upload & Parse"}
           </button>
         </form>
+
+        {loading && (
+          <p>
+            ⏱️ Elapsed: <span>{elapsed}s</span>
+          </p>
+        )}
+        {!loading && csv && parseFloat(elapsed) >= 0 && <p>✅ Completed in {elapsed}s</p>}
 
         {error && <p className="error">❌ {error}</p>}
         {csv && (
