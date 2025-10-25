@@ -11,18 +11,19 @@ services:
     startCommand: npm run start
     envVars:
       - key: OPENAI_API_KEY
-        sync: false        # we'll add it in the dashboard
+        sync: false        # add this manually in Render dashboard
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 8080
 
   # ---------- Frontend ----------
-  - type: static
+  - type: web
     name: bank-parser-frontend
+    env: static            # ✅ this replaces "type: static"
     rootDir: client
     buildCommand: npm run build
-    staticPublishPath: build   # use dist if Vite
+    staticPublishPath: dist
     envVars:
       - key: REACT_APP_API_URL
-        value: https://bank-parser-backend.onrender.com
+        value: https://bank-parser-uswm.onrender.com

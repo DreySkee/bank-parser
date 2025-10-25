@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 
+const API_URL = "https://bank-parser-uswm.onrender.com/api/upload";
+
 function App() {
     const [file, setFile] = useState<File | null>(null);
     const [csv, setCsv] = useState("");
@@ -22,7 +24,7 @@ function App() {
         formData.append("file", file);
 
         try {
-            const res = await fetch("http://localhost:8080/api/upload", {
+            const res = await fetch(API_URL, {
                 method: "POST",
                 body: formData,
             });
