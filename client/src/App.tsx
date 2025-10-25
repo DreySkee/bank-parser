@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-const API_URL = "https://bank-parser-uswm.onrender.com/api/upload";
+const API_URL = "https://bank-parser-backend.onrender.com/api/upload";
 
 function App() {
     const [file, setFile] = useState<File | null>(null);
