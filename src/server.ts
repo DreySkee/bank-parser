@@ -7,7 +7,17 @@ dotenv.config(); // ✅ must run before anything else
 import uploadRoute from "./routes/upload";
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",  // if using Vite
+            "http://localhost:3000",  // if using CRA
+            "https://bank-parser-frontend.onrender.com",
+        ],
+        methods: ["GET", "POST"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+);
 app.use(express.json());
 app.use("/api", uploadRoute);
 
